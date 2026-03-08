@@ -410,7 +410,9 @@ upsert_env "$ENV_FILE" \
   OPENCLAW_INSTALL_DOCKER_CLI \
   OPENCLAW_ALLOW_INSECURE_PRIVATE_WS
 
-if [[ "$IMAGE_NAME" == "openclaw:local" ]]; then
+if [[ "${OPENCLAW_SKIP_BUILD:-}" == "1" || "${OPENCLAW_SKIP_BUILD:-}" == "true" ]]; then
+  echo "==> Using existing Docker image: $IMAGE_NAME (OPENCLAW_SKIP_BUILD=1)"
+elif [[ "$IMAGE_NAME" == "openclaw:local" ]]; then
   echo "==> Building Docker image: $IMAGE_NAME"
   docker build \
     --build-arg "OPENCLAW_DOCKER_APT_PACKAGES=${OPENCLAW_DOCKER_APT_PACKAGES}" \
